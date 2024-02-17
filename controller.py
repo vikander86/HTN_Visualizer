@@ -31,6 +31,9 @@ class AppController:
         declare_methods("navigate", navigate)
         declare_methods("fetch", fetch)
         declare_methods("transport", transport)
+        
+        self.animation_speed = 1000
+        
     """
     initializaion
     """
@@ -74,7 +77,7 @@ class AppController:
             self.view.solution_box.insert("end", f"Task: \"transport\", {end_loc}, \"box1\"\n")
         if plan:
             self.view.after(
-                500, lambda: self.animate_plan(plan))
+                self.animation_speed, lambda: self.animate_plan(plan))
         else:
             self.view.solution_box.insert("end", "No plan found.\n")
 
@@ -106,10 +109,10 @@ class AppController:
             if action == "pickup" or action == "drop":
                 holding = result
         self.view.solution_box.see("end")
-        self.view.after(650, lambda: self.animate_plan(
+        self.view.after(self.animation_speed, lambda: self.animate_plan(
             plan, step_index+1, holding))
 
-    def animate_movement(self, start, end, steps=500, holding=False):
+    def animate_movement(self, start, end, steps=250, holding=False):
         """
         Animates the movement from the start position to the end position.
 
@@ -232,7 +235,6 @@ class AppController:
         pos = self.view.start_pos_choice.get()
         x, y = self.view.points_dict[pos]
         self.view.canvas.coords(self.view.roby, x, y)
-        # self.view.canvas.tag_raise(self.view.point_text_items[pos])
 
     def move_box(self,event=None):
         """
@@ -244,7 +246,6 @@ class AppController:
         pos = self.view.box_pos_choice.get()
         x, y = self.view.points_dict[pos]
         self.view.canvas.coords(self.view.box_item, x, y)
-        # self.view.canvas.tag_raise(self.view.point_text_items[pos])
 
     def random_pos(self):
         """
@@ -292,6 +293,10 @@ class AppController:
         
         if plan:
             self.view.after(
-                500, lambda: self.animate_plan(plan))
+                self.animation_speed, lambda: self.animate_plan(plan))
         else:
             self.view.solution_box.insert("end", "No plan found.\n")
+
+    def speed_control(self, value):
+        self.animation_speed = 1000 - 1000 * value
+        self.animation_speed = int(self.animation_speed)

@@ -126,7 +126,6 @@ class Lab_4GUI(CTk):
         self.canvas.tag_bind(self.door_items["door4"], "<Button-1>", lambda e: self.toggle_door_color("door4"))
 
         # Robot representation
-        # self.roby = self.canvas.create_rectangle(90, 90, 160, 160, outline="black", fill="blue", width=3)
         self.roby = self.canvas.create_image(300,300, image=self.roby_display)
 
         self.right_frame = CTkFrame(self, height=1000, width=400)
@@ -157,7 +156,11 @@ class Lab_4GUI(CTk):
         self.end_pos = CTkComboBox(self.right_frame, variable=self.end_pos_choice, width=75, values=list(self.points_dict.keys()), command=self.set_end_pos).pack()
         self.box_pos_text = CTkLabel(self.right_frame, text="Set box point").pack()
         self.box_pos = CTkComboBox(self.right_frame, variable=self.box_pos_choice, width=75, values=list(self.points_dict.keys()), command=self.controller.move_box).pack()
-            
+        
+        self.speed_slider_text = CTkLabel(self.right_frame, text="Set animation speed").pack()
+        self.speed = CTkSlider(self.right_frame, command=self.controller.speed_control)
+        self.speed.set(0)
+        self.speed.pack()
 
     def box(self):
         """
