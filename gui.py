@@ -1,6 +1,6 @@
 from customtkinter import *
 from tkinter import *
-from pyhop import *
+from pyhop.pyhop import *
 
 set_appearance_mode("Dark")
 set_default_color_theme("dark-blue")

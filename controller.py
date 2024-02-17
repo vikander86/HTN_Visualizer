@@ -1,5 +1,5 @@
 from gui import Lab_4GUI
-from pyhop import *
+from pyhop.pyhop import *
 from files import *
 import random
 
@@ -105,7 +105,7 @@ class AppController:
             if action == "pickup" or action == "drop":
                 holding = result
         self.view.solution_box.see("end")
-        self.view.after(250, lambda: self.animate_plan(
+        self.view.after(500, lambda: self.animate_plan(
             plan, step_index+1, holding))
 
     def move_to(self, loc, holding):
