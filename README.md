@@ -3,11 +3,11 @@
 ## Overview
 This HTN (Hierarchical Task Network) Visualizer is a practical tool developed during a lab in the Artificial Intelligence course at the University of Örebro. 
 It utilizes PyHOP, created by Dana S. Nau, to demonstrate how a robot navigates within a room to perform tasks such as fetching and transporting boxes. 
-The visualizer allows for interactive planning through custom start, end, and box positions, or through preset test scenarios for navigation, fetching, and transporting.
+The visualizer allows for interactive planning through custom start, end, and box positions, or through random generated test scenarios for navigation, fetching, and transporting.
 
 ## Features
 - **Interactive Planning**: Customize the robot's start and end positions, as well as the box position, and see the plan solved in real time.
-- **Preset Test Scenarios**: Quickly test the robot's navigation, fetching, and transporting capabilities with predefined scenarios.
+- **Preset Test Scenarios**: Quickly test the robot's navigation, fetching, and transporting capabilities with random scenarios.
 - **Dynamic Environment Interaction**: Open and close doors within the environment by clicking on them to affect the robot's planning path.
 - **Step-by-Step Plan Visualization**: Each step the robot takes is clearly outlined, providing insight into the planning process.
 
@@ -42,7 +42,10 @@ Navigate to the project directory and run the main.py file:
 - **Environment Interaction**: Click doors to open/close them, influencing the planning process.
 
 ## Contributing
-We welcome contributions, including bug reports, feature requests, and code improvements. Please use GitHub issues and pull requests.
+I welcome contributions, including bug reports, feature requests, and code improvements. Please use GitHub issues and pull requests.
+
+## Images
+- Images for robot and box have been acquired from www.vecteezy.com
 
 ## Acknowledgments
 - Dana S. Nau for PyHOP, enabling detailed HTN planning.
