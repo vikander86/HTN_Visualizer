@@ -78,6 +78,7 @@ class AppController:
         else:
             self.view.solution_box.insert("end", "No plan found.\n")
 
+
     def animate_plan(self, plan, step_index=0, holding=False):
         """
         Animates the execution of a plan step by step.
@@ -105,9 +106,44 @@ class AppController:
             if action == "pickup" or action == "drop":
                 holding = result
         self.view.solution_box.see("end")
-        self.view.after(500, lambda: self.animate_plan(
+        self.view.after(650, lambda: self.animate_plan(
             plan, step_index+1, holding))
 
+    def animate_movement(self, start, end, steps=500, holding=False):
+        """
+        Animates the movement from the start position to the end position.
+
+        Args:
+            start (tuple): The starting (x, y) coordinates.
+            end (tuple): The ending (x, y) coordinates.
+            steps (int): Number of steps to divide the animation into.
+        """
+        dx = (end[0] - start[0]) / steps # Find increments on the x-axis
+        dy = (end[1] - start[1]) / steps # Find increments on the y-axis
+
+        # Recursively call move_step every 1ms, incrementing once on (x,y)
+        def move_step(step):
+            if step < steps:
+                self.view.canvas.move(self.view.roby, dx, dy)
+                if holding:
+                    self.view.canvas.move(self.view.box_item, dx, dy)
+                self.view.after(1, move_step, step+1)
+        move_step(0)
+        
+    def init_movement(self,loc, holding):
+        """
+        Initialize the movement with start pos(from current pos) and end pos.
+
+        Args:
+            loc (str): key for dictionary of points.
+            holding (bool): wether or not robot is holding a box.
+        """
+        current_pos = self.view.start_pos_choice.get()
+        start = self.view.points_dict[current_pos]
+        end = self.view.points_dict[loc]
+        self.view.start_pos_choice.set(loc)
+        self.animate_movement(start, end, holding=holding)
+        
     def move_to(self, loc, holding):
         """
         Moves the robot to the specified location.
@@ -116,11 +152,7 @@ class AppController:
             loc (str): The target location to move to.
             holding (bool): Indicating whether the robot is holding the box.
         """
-        self.view.start_pos_choice.set(loc)
-        if holding:
-            self.view.box_pos_choice.set(loc)
-            self.move_box()
-        self.move_robot()
+        self.init_movement(loc,holding)
         self.view.solution_box.insert("end", f"Moving to: {loc}\n")
 
     def cross_door(self, door, loc, holding):
@@ -132,11 +164,7 @@ class AppController:
             loc (str): The target location after crossing the door.
             holding (bool): Indicating whether the robot is holding the box.
         """
-        self.view.start_pos_choice.set(loc)
-        if holding:
-            self.view.box_pos_choice.set(loc)
-            self.move_box()
-        self.move_robot()
+        self.init_movement(loc,holding)
         self.view.solution_box.insert(
             "end", f"Crossing door: {door} to {loc}\n")
 
@@ -187,12 +215,7 @@ class AppController:
         Returns:
             False to indicate that the robot is no longer holding the box.
         """
-        current_coords = self.view.canvas.coords(self.view.box_item)
-        pos = self.view.start_pos_choice.get()
-        x, y = self.view.points_dict[pos]
-        dx = x - (current_coords[0] + current_coords[2]) / 2
-        dy = y - (current_coords[1] + current_coords[3]) / 2 - 80
-        self.view.canvas.move(self.view.box_item, dx, dy)
+        self.view.canvas.move(self.view.box_item, 0, 80)
         self.view.solution_box.insert("end", f"Dropping: {box}\n")
         return False
 
@@ -206,13 +229,10 @@ class AppController:
         """
         Moves the robot to the selected start position.
         """
-        current_coords = self.view.canvas.coords(self.view.roby)
         pos = self.view.start_pos_choice.get()
         x, y = self.view.points_dict[pos]
-        dx = x - (current_coords[0] + current_coords[2]) / 2
-        dy = y - (current_coords[1] + current_coords[3]) / 2
-        self.view.canvas.move(self.view.roby, dx, dy)
-        self.view.canvas.tag_raise(self.view.point_text_items[pos])
+        self.view.canvas.coords(self.view.roby, x, y)
+        # self.view.canvas.tag_raise(self.view.point_text_items[pos])
 
     def move_box(self,event=None):
         """
@@ -221,13 +241,10 @@ class AppController:
         if self.view.box_item is not None:
             self.view.canvas.delete(self.view.box_item)
         self.view.box_item = self.view.box()
-        current_coords = self.view.canvas.coords(self.view.box_item)
         pos = self.view.box_pos_choice.get()
         x, y = self.view.points_dict[pos]
-        dx = x - (current_coords[0] + current_coords[2]) / 2
-        dy = y - (current_coords[1] + current_coords[3]) / 2
-        self.view.canvas.move(self.view.box_item, dx, dy)
-        self.view.canvas.tag_raise(self.view.point_text_items[pos])
+        self.view.canvas.coords(self.view.box_item, x, y)
+        # self.view.canvas.tag_raise(self.view.point_text_items[pos])
 
     def random_pos(self):
         """

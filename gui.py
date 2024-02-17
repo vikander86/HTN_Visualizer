@@ -1,10 +1,10 @@
 from customtkinter import *
 from tkinter import *
 from pyhop.pyhop import *
+from PIL import Image, ImageTk
 
 set_appearance_mode("Dark")
 set_default_color_theme("dark-blue")
-
 
 class Lab_4GUI(CTk):
     def __init__(self, controller):
@@ -43,6 +43,14 @@ class Lab_4GUI(CTk):
             "p15": (755, 425),
             "p16": (755, 575),
         }
+        
+        self.roby_png = Image.open('img/robot.png')
+        self.roby_png = self.roby_png.resize((100, 100))
+        self.roby_display = ImageTk.PhotoImage(self.roby_png)
+        
+        self.box_png = Image.open('img/Box.png')
+        self.box_png = self.box_png.resize((80, 60))
+        self.box_display = ImageTk.PhotoImage(self.box_png)
 
     def main_frames(self):
         """
@@ -118,7 +126,8 @@ class Lab_4GUI(CTk):
         self.canvas.tag_bind(self.door_items["door4"], "<Button-1>", lambda e: self.toggle_door_color("door4"))
 
         # Robot representation
-        self.roby = self.canvas.create_rectangle(90, 90, 160, 160, outline="black", fill="blue", width=3)
+        # self.roby = self.canvas.create_rectangle(90, 90, 160, 160, outline="black", fill="blue", width=3)
+        self.roby = self.canvas.create_image(300,300, image=self.roby_display)
 
         self.right_frame = CTkFrame(self, height=1000, width=400)
         self.right_frame.place(x=1200, y=0)
@@ -157,8 +166,7 @@ class Lab_4GUI(CTk):
         Returns:
             The canvas item identifier for the created box.
         """
-        return self.canvas.create_rectangle(
-            50, 50, 100, 100, outline="black", fill="orange", width=3)
+        return self.canvas.create_image(300,300, image=self.box_display)
 
     def set_end_pos(self, event=None):
         """
