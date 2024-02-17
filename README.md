@@ -32,7 +32,7 @@ The visualizer allows for interactive planning through custom start, end, and bo
 
 
 ### Running the Visualizer
-Navigate to the project directory and run the main.py file.
+Navigate to the project directory and run the main.py file:
   python3 main.py
 
 
