@@ -24,7 +24,7 @@ The visualizer allows for interactive planning through custom start, end, and bo
 ### Installation
 
 1. Clone this repository to your local machine:
-   git clone https://github.com/vikander86/HTN_planner/
+   git clone https://github.com/vikander86/HTN_Visualizer/
 
 2. Install libraries:
    pip install -r requirements.txt
