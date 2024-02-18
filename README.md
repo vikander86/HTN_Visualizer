@@ -59,3 +59,6 @@ I welcome contributions, including bug reports, feature requests, and code impro
 - Dana S. Nau for PyHOP, enabling detailed HTN planning.
 - The Artificial Intelligence course team
 - The `customtkinter` library for enhancing the UI experience.
+- 
+## Demonstration
+![](https://github.com/vikander86/HTN_Visualizer/blob/main/img/HTN_Visu.gif)
