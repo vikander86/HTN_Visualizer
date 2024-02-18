@@ -44,7 +44,7 @@ class Lab_4GUI(CTk):
             "p16": (755, 575),
         }
         
-        self.roby_png = Image.open('img/robot.png')
+        self.roby_png = Image.open('img/Robot.png')
         self.roby_png = self.roby_png.resize((100, 100))
         self.roby_display = ImageTk.PhotoImage(self.roby_png)
         
